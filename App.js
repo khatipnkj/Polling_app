@@ -4,7 +4,7 @@ import { StyleSheet,View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-
+import CustomDrawer from "./pages/CustomDrawer";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Poll from "./pages/Poll";
@@ -17,13 +17,13 @@ const Drawer = createDrawerNavigator();
 
 const DrawerRoutes = () => {
   return (
-    <Drawer.Navigator backBehavior="none">
+    <Drawer.Navigator drawerContent={(props) => <CustomDrawer {...props} />}>
       
-        <Drawer.Screen name="Poll" component={Poll} />
-        <Drawer.Screen name="Createpoll" component={Createpoll} />
-        <Drawer.Screen name="Userlist" component={Userlist} />
+        <Drawer.Screen Options={{headerShown:false}} name="Poll" component={Poll} />
+        <Drawer.Screen Options={{headerShown:false}} name="Createpoll" component={Createpoll} />
+        <Drawer.Screen Options={{headerShown:false}} name="Userlist" component={Userlist} />
         
-        {/* <Drawer.Screen name="LogOut" component={Login}/> */}
+        {/* <Drawer.Screen cname="LogOut" component={Login}/> */}
         
       
     </Drawer.Navigator>

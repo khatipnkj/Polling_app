@@ -7,6 +7,7 @@ import {
   Platform,
   StatusBar,
 } from "react-native";
+import Icon from "react-native-vector-icons/FontAwesome";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState,useEffect } from "react";
 // import Input from "../components/Input";
@@ -14,6 +15,7 @@ import React, { useState,useEffect } from "react";
 const Login = ({ navigation }) => {
   const [username, setUsername] = useState("");
   const [pwd, setPwd] = useState("");
+  const [error,setError] = useState()
   // const [loginDetails, setloginDetails] = useState({ Username: null, Pwd: null });
 
   const hndleloginbtn = () => {
@@ -23,25 +25,24 @@ const Login = ({ navigation }) => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({})
     };
-    fetch(`https://secure-refuge-14993.herokuapp.com/login?username=${username}&password=${pwd}`,requestOptions)
-      .then(response => response.json())
-      .then(data => {
-        if(data.error === 0){
-          navigation.navigate('Home')
-          storeData(data.token);
-        }
-        else{
-          alert(data.data)
-        }
-        // data.error?:()=>{navigation.navigate('Home')}
-      })
-    // setloginDetails(
-    //     {
-    //       Username: username,
-    //       Pwd: pwd,
-    //       // id: loginDetails.Credentials.length,
-    //     });
-    // console.log(loginDetails);
+    if(username.length!==0&&pwd.length!==0){
+
+      fetch(`https://secure-refuge-14993.herokuapp.com/login?username=${username}&password=${pwd}`,requestOptions)
+        .then(response => response.json())
+        .then(data => {
+          if(data.error === 0){
+            navigation.navigate('Home')
+            storeData(data.token);
+          }
+          else{
+            alert(data.data)
+          }
+        })
+    }
+    else{
+      setError("UserName and Password should not be Empty!")
+    }
+    
     setUsername("");
     setPwd("");
   };
@@ -49,16 +50,14 @@ const Login = ({ navigation }) => {
     try {
       await AsyncStorage.setItem('token', token)
     } catch (e) {
-      // saving error
+
       console.log(e)
     }
   }
 
-  // function getData({...data}){
-  //   console.log(data)
-  // }
+  
   useEffect(()=>{
-    // console.log(loginDetails)
+
 
     const getData = async () => {
       try {
@@ -78,6 +77,7 @@ const Login = ({ navigation }) => {
 
   return (
     <View style={styles.vcontainer}>
+      {error&&<View><Text style={{color:"red"}}>{error}</Text></View>}
       {/* <Input lblname="UserName" func={getData}/> */}
       <View style={styles.container}>
         <Text>Username</Text>
@@ -106,6 +106,7 @@ const Login = ({ navigation }) => {
       <View style={{ alignItems: "center", marginTop: 10 }}>
         <Text style={{color:'blue'}} onPress={() => {navigation.navigate("SignUp")}}>Not a user, SignUp first! </Text>
       </View>
+        
     </View>
   );
 };
