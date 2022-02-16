@@ -1,38 +1,43 @@
 import { StyleSheet, TextInput, Button, Text, View } from "react-native";
-import React, {useState} from "react";
+import React, { useState } from "react";
 
 const CreatePoll = () => {
-  const [pollData,setPollData] = useState({
-    Title:'',
-    opt1:'',
-    opt2:'',
-    opt3:'',
-    opt4:'',
+  const [pollData, setPollData] = useState({
+    Title: "",
+    opt1: "",
+    opt2: "",
+    opt3: "",
+    opt4: "",
   });
-  const AddData = (key,value) => {
+  const AddData = (key, value) => {
     setPollData({
       ...pollData,
-      [key]:value
-    })
-  } 
+      [key]: value,
+    });
+  };
   // console.log(pollData)
   const AddPoll = () => {
     const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({})
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({}),
     };
-    fetch(`https://secure-refuge-14993.herokuapp.com/add_poll?title=${pollData.Title}%20polll&options=${pollData.opt1}____${pollData.opt2}____${pollData.opt3}____${pollData.opt4}`,requestOptions)
-      .then(response => response.json())
-      .then(data => data.error?alert('Poll not added'):alert('Poll added'))
+    fetch(
+      `https://secure-refuge-14993.herokuapp.com/add_poll?title=${pollData.Title}%20polll&options=${pollData.opt1}____${pollData.opt2}____${pollData.opt3}____${pollData.opt4}`,
+      requestOptions
+    )
+      .then((response) => response.json())
+      .then((data) =>
+        data.error ? alert("Poll not added") : alert("Poll added")
+      );
     setPollData({
-      Title:'',
-      opt1:'',
-      opt2:'',
-      opt3:'',
-      opt4:'',
-    })
-  }
+      Title: "",
+      opt1: "",
+      opt2: "",
+      opt3: "",
+      opt4: "",
+    });
+  };
   return (
     <View style={{ marginHorizontal: 10 }}>
       <View
@@ -50,7 +55,7 @@ const CreatePoll = () => {
         <TextInput
           style={{ width: 300, borderWidth: 1, borderRadius: 5 }}
           value={pollData.Title}
-          onChangeText={(value) => AddData('Title',value)}
+          onChangeText={(value) => AddData("Title", value)}
         ></TextInput>
       </View>
       <View style={{ width: 300 }}>
@@ -58,7 +63,7 @@ const CreatePoll = () => {
         <TextInput
           style={{ width: 300, borderWidth: 1, borderRadius: 5 }}
           value={pollData.opt1}
-          onChangeText={(value) => AddData('opt1',value)}
+          onChangeText={(value) => AddData("opt1", value)}
         ></TextInput>
       </View>
       <View style={{ width: 300 }}>
@@ -66,7 +71,7 @@ const CreatePoll = () => {
         <TextInput
           style={{ width: 300, borderWidth: 1, borderRadius: 5 }}
           value={pollData.opt2}
-          onChangeText={(value) => AddData('opt2',value)}
+          onChangeText={(value) => AddData("opt2", value)}
         ></TextInput>
       </View>
       <View style={{ width: 300 }}>
@@ -74,7 +79,7 @@ const CreatePoll = () => {
         <TextInput
           style={{ width: 300, borderWidth: 1, borderRadius: 5 }}
           value={pollData.opt3}
-          onChangeText={(value) => AddData('opt3',value)}
+          onChangeText={(value) => AddData("opt3", value)}
         ></TextInput>
       </View>
       <View style={{ width: 300 }}>
@@ -82,7 +87,7 @@ const CreatePoll = () => {
         <TextInput
           style={{ width: 300, borderWidth: 1, borderRadius: 5 }}
           value={pollData.opt4}
-          onChangeText={(value) => AddData('opt4',value)}
+          onChangeText={(value) => AddData("opt4", value)}
         ></TextInput>
       </View>
       <View style={{ marginTop: 40 }}>

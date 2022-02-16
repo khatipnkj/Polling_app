@@ -5,7 +5,7 @@ import {
   Text,
   View,
   Platform,
-  StatusBar
+  StatusBar,
 } from "react-native";
 import SelectDropdown from "react-native-select-dropdown";
 import React, { useEffect, useState } from "react";
@@ -18,38 +18,50 @@ const Signup = ({ navigation }) => {
 
   const hndleSignUp = () => {
     // console.log(role)
-    if(username!==''&&pwd!==""&&cpwd!==""&&role!==""){
-      if(pwd===cpwd){
+    if (username !== "" && pwd !== "" && cpwd !== "" && role !== "") {
+      if (pwd === cpwd) {
         const requestOptions = {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({})
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({}),
         };
-        fetch(`https://secure-refuge-14993.herokuapp.com/add_user?username=${username}&password=${pwd}&role=${role}`,requestOptions)
-          .then(response => response.json())
-          .then(data => data.error?alert("account already exists!"):alert("SignUp completed! Please Login"))
+        fetch(
+          `https://secure-refuge-14993.herokuapp.com/add_user?username=${username}&password=${pwd}&role=${role}`,
+          requestOptions
+        )
+          .then((response) => response.json())
+          .then((data) =>
+            data.error
+              ? alert("account already exists!")
+              : alert("SignUp completed! Please Login")
+          );
         setUsername("");
         setRole("--Select a Role--");
         setPwd("");
         setCpwd("");
-   
-      }
-      else{
-        alert("Confirm password is not same!")
+      } else {
+        alert("Confirm password is not same!");
         setPwd("");
         setCpwd("");
-        
       }
-      
+    } else {
+      alert("feild missing");
     }
-    else{
-      alert("feild missing")
-          
-    }
-  }
-  
+  };
+
   return (
     <View style={styles.vcontainer}>
+      <View
+        style={{
+          backgroundColor: "black",
+          width: "100%",
+          display: "flex",
+          alignItems: "center",
+          padding: 10,
+        }}
+      >
+        <Text style={{ color: "#fff", fontSize: 30 }}>Polling App</Text>
+      </View>
       <View style={styles.container}>
         <Text>Username</Text>
         <TextInput
@@ -61,22 +73,22 @@ const Signup = ({ navigation }) => {
       </View>
       <View style={styles.container}>
         <Text>Role</Text>
-        
+
         <SelectDropdown
-            data={["Admin","Guest"]}
-            onSelect={(selectedItem) => {
-              setRole(selectedItem)
-            }}
-            defaultButtonText={role}
-            buttonTextAfterSelection={(selectedItem) => {
-              return selectedItem;
-            }}
-            // rowTextForSelection={(item, index) => {
-            //   return item;
-            // }}
-            buttonStyle={styles.dropdown1BtnStyle}
-            buttonTextStyle={styles.dropdown1BtnTxtStyle}
-          />
+          data={["Admin", "Guest"]}
+          onSelect={(selectedItem) => {
+            setRole(selectedItem);
+          }}
+          defaultButtonText={role}
+          buttonTextAfterSelection={(selectedItem) => {
+            return selectedItem;
+          }}
+          // rowTextForSelection={(item, index) => {
+          //   return item;
+          // }}
+          buttonStyle={styles.dropdown1BtnStyle}
+          buttonTextStyle={styles.dropdown1BtnTxtStyle}
+        />
       </View>
       <View style={styles.container}>
         <Text>Password</Text>
@@ -102,7 +114,14 @@ const Signup = ({ navigation }) => {
         </TouchableOpacity>
       </View>
       <View style={{ alignItems: "center", marginTop: 10 }}>
-        <Text style={{color:'blue'}}onPress={()=>{navigation.navigate('Login')}}>If Already SignUp! please Login </Text>
+        <Text
+          style={{ color: "blue" }}
+          onPress={() => {
+            navigation.navigate("Login");
+          }}
+        >
+          If Already SignUp! please Login{" "}
+        </Text>
       </View>
     </View>
   );
@@ -115,17 +134,14 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "white",
     alignItems: "center",
-    paddingTop: Platform.OS === "android"?StatusBar.currentHeight:0
-    // marginVertical:30,
-    // marginHorizontal:20
-    // justifyContent: 'center',
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
   input: {
     borderWidth: 1,
     width: 300,
     paddingHorizontal: 5,
-    borderRadius:8,
-    height:35
+    borderRadius: 8,
+    height: 35,
   },
   container: {
     display: "flex",
@@ -139,8 +155,8 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     backgroundColor: "red",
   },
-  dropdown:{
-    width:500
+  dropdown: {
+    width: 500,
   },
   dropdown1BtnStyle: {
     width: "84%",
@@ -149,9 +165,9 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderWidth: 1,
     borderColor: "#444",
-    padding:0
+    padding: 0,
   },
-  dropdown1BtnTxtStyle:{
-    fontSize:15
-  }
+  dropdown1BtnTxtStyle: {
+    fontSize: 15,
+  },
 });

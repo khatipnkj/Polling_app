@@ -1,6 +1,6 @@
 import "react-native-gesture-handler";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet,View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -18,16 +18,24 @@ const Drawer = createDrawerNavigator();
 const DrawerRoutes = () => {
   return (
     <Drawer.Navigator drawerContent={(props) => <CustomDrawer {...props} />}>
-      
-        <Drawer.Screen Options={{headerShown:false}} name="Poll" component={Poll} />
-        <Drawer.Screen Options={{headerShown:false}} name="Createpoll" component={Createpoll} />
-        <Drawer.Screen Options={{headerShown:false}} name="Userlist" component={Userlist} />
-        
-        {/* <Drawer.Screen cname="LogOut" component={Login}/> */}
-        
-      
-    </Drawer.Navigator>
+      <Drawer.Screen
+        Options={{ headerShown: false }}
+        name="Poll"
+        component={Poll}
+      />
+      <Drawer.Screen
+        Options={{ headerShown: false }}
+        name="Createpoll"
+        component={Createpoll}
+      />
+      <Drawer.Screen
+        Options={{ headerShown: false }}
+        name="Userlist"
+        component={Userlist}
+      />
 
+      {/* <Drawer.Screen cname="LogOut" component={Login}/> */}
+    </Drawer.Navigator>
   );
 };
 
