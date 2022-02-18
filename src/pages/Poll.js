@@ -5,29 +5,36 @@ import {
   ScrollView,
   Text,
   View,
+  Button,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useCallback} from "react";
 import Options from "../components/Options";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { FlatList } from "react-native-gesture-handler";
-import { borderBottomColor } from "react-native/Libraries/Components/View/ReactNativeStyleAttributes";
+import { allPollRequest, deletePollRequest } from "../redux/actions/actions";
+import { useDispatch, useSelector } from "react-redux";
 // import PollItem from "../components/PollItem";
+import { useFocusEffect } from "@react-navigation/native";
 
 const PollItem = ({ item }) => {
   const [loader, setLoader] = useState(false);
+  const dispatch = useDispatch();
   const deletePoll = (id) => {
-    setLoader(true);
-    const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({}),
-    };
-    fetch(
-      `https://secure-refuge-14993.herokuapp.com/delete_poll?id=${id}`,
-      requestOptions
-    );
+    console.log(id)
+    // setLoader(true);
+    // const requestOptions = {
+    //   method: "POST",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify({}),
+    // };
+    // fetch(
+    //   `https://secure-refuge-14993.herokuapp.com/delete_poll?id=${id}`,
+    //   requestOptions
+    // );
+    dispatch(deletePollRequest(id))
     // setLoader(false)
   };
+
   return (
     <View>
       {loader ? (
@@ -62,38 +69,41 @@ const PollItem = ({ item }) => {
 };
 
 const Poll = () => {
-  // const [Title,setTitle] = useState('');
-  const [data, setData] = useState([]);
-  const [loader, setLoader] = useState(true);
+  const { allPolls } = useSelector((state) => state);
+  const dispatch = useDispatch();
 
-  useEffect(() => {
-    fetch("https://secure-refuge-14993.herokuapp.com/list_polls")
-      .then((response) => response.json())
-      .then((data) => {
-        setData(data.data);
+  // console.log(addPoll.isLoading, "pank");
 
-        setLoader(false);
-      });
-    // setLoader(true)
-  }, [data]);
-  // console.log(data)
+  // useEffect(() => {
+  //   // getdata()
+  //   dispatch(allPollRequest());
+  // }, []);
+  
+  useFocusEffect(
+    useCallback(()=>{
+      // getdata()
+      dispatch(allPollRequest());
+    },[])
+    )
+    // const getdata =() => {
+    // }
   const renderItem = ({ item }) => <PollItem item={item} />;
 
   return (
-    <View style={{ marginHorizontal: 10 }}>
+    <View style={{ marginHorizontal: 10,alignItems:'center',justifyContent:'center' }}>
       <View
         style={{
           width: 340,
           display: "flex",
           alignItems: "center",
-          // marginVertical: ,
+          justifyContent:'center',
           backgroundColor: "#292a2b",
           borderRadius: 5,
         }}
       >
         <Text style={{ color: "#fff", fontSize: 25 }}>All Polls</Text>
       </View>
-      {loader && (
+      {allPolls?.isLoading && (
         <View
           style={{
             flex: 1,
@@ -112,7 +122,7 @@ const Poll = () => {
       )}
 
       <FlatList
-        data={data}
+        data={allPolls.response}
         renderItem={renderItem}
         keyExtractor={(item) => item._id}
       />

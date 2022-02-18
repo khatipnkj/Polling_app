@@ -4,12 +4,14 @@ import { StyleSheet, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import CustomDrawer from "./pages/CustomDrawer";
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
-import Poll from "./pages/Poll";
-import Userlist from "./pages/Userlist";
-import Createpoll from "./pages/Createpoll";
+import CustomDrawer from "./src/navigation/CustomDrawer";
+import Login from "./src/pages/Login";
+import Signup from "./src/pages/Signup";
+import Poll from "./src/pages/Poll";
+import Userlist from "./src/pages/Userlist";
+import Createpoll from "./src/pages/Createpoll";
+import { Provider } from "react-redux";
+import store from "./src/redux/store";
 
 const Stack = createNativeStackNavigator();
 
@@ -41,6 +43,7 @@ const DrawerRoutes = () => {
 
 export default function App() {
   return (
+    <Provider store={store}>
     <NavigationContainer style={styles.container}>
       <Stack.Navigator
         screenOptions={{
@@ -53,6 +56,7 @@ export default function App() {
       </Stack.Navigator>
       <StatusBar style="auto" />
     </NavigationContainer>
+    </Provider>
   );
 }
 

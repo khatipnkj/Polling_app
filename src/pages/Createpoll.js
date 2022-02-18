@@ -1,5 +1,13 @@
-import { StyleSheet, TextInput, Button, Text, View } from "react-native";
+import {
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  Text,
+  View,
+} from "react-native";
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addPollRequest } from "../redux/actions/actions";
 
 const CreatePoll = () => {
   const [pollData, setPollData] = useState({
@@ -16,20 +24,24 @@ const CreatePoll = () => {
     });
   };
   // console.log(pollData)
+  // const { addPoll} = useSelector((state) => state);
+  const dispatch = useDispatch();
   const AddPoll = () => {
-    const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({}),
-    };
-    fetch(
-      `https://secure-refuge-14993.herokuapp.com/add_poll?title=${pollData.Title}%20polll&options=${pollData.opt1}____${pollData.opt2}____${pollData.opt3}____${pollData.opt4}`,
-      requestOptions
-    )
-      .then((response) => response.json())
-      .then((data) =>
-        data.error ? alert("Poll not added") : alert("Poll added")
-      );
+    // const requestOptions = {
+    //   method: "POST",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify({}),
+    // };
+    // fetch(
+    //   `https://secure-refuge-14993.herokuapp.com/add_poll?title=${pollData.Title}&options=${pollData.opt1}____${pollData.opt2}____${pollData.opt3}____${pollData.opt4}`,
+    //   requestOptions
+    // )
+    // .then((response) => response.json())
+    // .then((data) =>
+    //   data.error ? alert("Poll not added") : alert("Poll added")
+    // );
+    dispatch(addPollRequest(pollData));
+    alert("Poll added");
     setPollData({
       Title: "",
       opt1: "",
@@ -39,7 +51,13 @@ const CreatePoll = () => {
     });
   };
   return (
-    <View style={{ marginHorizontal: 10 }}>
+    <View
+      style={{
+        marginHorizontal: 10,
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
       <View
         style={{
           width: 300,
@@ -91,7 +109,16 @@ const CreatePoll = () => {
         ></TextInput>
       </View>
       <View style={{ marginTop: 40 }}>
-        <Button onPress={AddPoll} title="Add Poll" />
+        <TouchableOpacity
+          onPress={AddPoll}
+          // disabled={!selectedOption}
+          // title="Submit poll"
+
+          style={styles.sbmtbtn}
+        >
+          <Text style={{color:'white'}}>Add Poll</Text>
+        </TouchableOpacity>
+        {/* <Button onPress={AddPoll} title="Add Poll" /> */}
       </View>
     </View>
   );
@@ -99,4 +126,12 @@ const CreatePoll = () => {
 
 export default CreatePoll;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  sbmtbtn: {
+    borderRadius: 5,
+    width: 340,
+    backgroundColor: "#2d2c2e",
+    padding: 10,
+    alignItems: "center",
+  },
+});

@@ -91,13 +91,15 @@ const Options = ({ dataObj }) => {
         keyExtractor={(item, i) => i}
       />
       <View style={{ marginBottom: 40 }}>
-        <Button
+        <TouchableOpacity
           onPress={() => sbmtPoll(dataObj._id)}
           disabled={!selectedOption}
-          title="Submit poll"
-          color="#2d2c2e"
-          style={{ borderRadius: 10 }}
-        />
+          // title="Submit poll"
+
+          style={styles.sbmtbtn}
+        >
+          <Text style={{color:'white'}}>Submit Poll</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -118,5 +120,12 @@ const styles = StyleSheet.create({
     width: 15,
     height: 15,
     marginRight: 5,
+  },
+  sbmtbtn: {
+    borderRadius: 5,
+    width: 340,
+    backgroundColor: "#2d2c2e",
+    padding: 10,
+    alignItems: "center",
   },
 });
